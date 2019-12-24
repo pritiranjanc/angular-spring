@@ -1,41 +1,44 @@
 package com.example.angular.test.controller;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.example.angular.controller.EmployeeService;
 import com.example.angular.model.Employee;
+import com.example.angular.test.AngularDemoApplicationTests;
 
-@RunWith(MockitoJUnitRunner.class)
-public class EmployeeServiceTest {
-
-	@InjectMocks
-	EmployeeService employeeService;
+public class EmployeeServiceTest extends AngularDemoApplicationTests {
 
 	@Test
-	public void testAddEmployee() 
+	public void testAddEmployee() throws Exception 
 	{
+		String url = "/addemployee";
 		Employee emp = new Employee(101, "John", "Sr. Engineer", 20000);
-		ResponseEntity<Object> responseEntity = employeeService.createEmployee(emp);
-		Assert.assertEquals(responseEntity.getStatusCodeValue(),200);
+		String inputJson = mapToJson(emp);
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(url)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+				.contentType(MediaType.APPLICATION_JSON).content(inputJson)).andReturn();
+
+		Assert.assertEquals(200,mvcResult.getResponse().getStatus());
 	}
 
 	@Test
-	public void testGetEmployees() 
+	public void testGetEmployees() throws Exception 
 	{
-		List<Employee> empList = employeeService.getEmployees();
-		Assert.assertFalse(empList.isEmpty());
+		String uri = "/employees";
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		Assert.assertEquals(200,mvcResult.getResponse().getStatus());
 	}
-	
+
 	@Test
-	public void testDeleteEmployee() {
-		ResponseEntity<Object> responseEntity = employeeService.deleteEmployee(101);
-		Assert.assertEquals(responseEntity.getStatusCodeValue(),200);
+	public void testDeleteEmployee() throws Exception {
+
+		String uri = "/deleteemployee/101";
+		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		Assert.assertEquals(200,mvcResult.getResponse().getStatus());
 	}
 }
