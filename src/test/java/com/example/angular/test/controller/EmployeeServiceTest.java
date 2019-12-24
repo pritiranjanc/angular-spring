@@ -18,7 +18,7 @@ public class EmployeeServiceTest extends AngularDemoApplicationTests {
 		Employee emp = new Employee(101, "John", "Sr. Engineer", 20000);
 		String inputJson = mapToJson(emp);
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(url)
-				.accept(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON).content(inputJson)).andReturn();
 
 		Assert.assertEquals(200,mvcResult.getResponse().getStatus());
@@ -29,7 +29,7 @@ public class EmployeeServiceTest extends AngularDemoApplicationTests {
 	{
 		String uri = "/employees";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+				.accept(MediaType.APPLICATION_JSON)).andReturn();
 		Assert.assertEquals(200,mvcResult.getResponse().getStatus());
 	}
 
@@ -38,7 +38,7 @@ public class EmployeeServiceTest extends AngularDemoApplicationTests {
 
 		String uri = "/deleteemployee/101";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+				.accept(MediaType.APPLICATION_JSON)).andReturn();
 		Assert.assertEquals(200,mvcResult.getResponse().getStatus());
 	}
 }
