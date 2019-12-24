@@ -41,7 +41,7 @@ public class EmployeeService {
 	}
 	
 	@DeleteMapping("/deleteemployee/{empId}")
-	public ResponseEntity deleteCustomer(@PathVariable Integer empId) {
+	public ResponseEntity deleteEmployee(@PathVariable Integer empId) {
 		employees.removeIf(e -> e.getEmpId()== empId);
 		return new ResponseEntity("{\"message\":\"Success\"}", HttpStatus.OK) ;
 	}

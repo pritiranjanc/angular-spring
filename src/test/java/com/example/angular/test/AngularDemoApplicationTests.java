@@ -1,4 +1,4 @@
-package com.example.angular_demo;
+package com.example.angular.test;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
